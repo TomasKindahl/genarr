@@ -7,13 +7,15 @@ namespace genarr
     {
         static void Main(string[] args)
         {
-            Array<int> A = new Array<int>(7);
-            A.Set(3, 11);
-            A[4] = 7;
+            Array<int> A = new Array<int>(10);
+            for (int i = 0; i < A.Length(); i++)
+            {
+                if (i == 4)
+                    A.Set(i, 66);
+                else
+                    A.Set(i, 9 - i);
+            }
             Console.WriteLine($"A = {A}");
-            Console.WriteLine($"{A[3]}");
-            Array<int> B = new Array<int>(new int[] { 1, 2, 3, 4 }); // Överkurs!
-            Console.WriteLine($"B = {B}");
         }
     }
 }
