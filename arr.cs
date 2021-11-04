@@ -10,7 +10,46 @@ namespace arr
     /// <typeparam name="T">specific type</typeparam>
     public class Array<T>
     {
-        T[] arr;
+        // T arr[];
+        class List<T> {
+            public T value;
+            public List<T> next;
+            public List(int size)
+            {
+                if (size > 1)
+                    next = new List<T>(size - 1);
+                else
+                    next = null;
+            }
+            public int Length() {
+                if(next == null)
+                    return 1;
+                return 1 + next.Length();
+            }
+            public T Get(int N)
+            {
+                if (N == 0)
+                    return this.value;
+                else
+                    return next.Get(N - 1);
+            }
+            public void Set(int N, T value)
+            {
+                if (N == 0)
+                    this.value = value;
+                else
+                    next.Set(N - 1, value);
+            }
+            public void Print()
+            {
+                Console.Write($"{value} ");
+                if (next != null)
+                    next.Print();
+                else
+                    Console.WriteLine();
+            }
+        }
+        List<T> list;
         //==== Constructors ====
         /// <summary>
         /// Constructor that allocates an array of elements with the
@@ -20,15 +59,7 @@ namespace arr
         public Array(int size)
         {
             if (size < 1) throw new ArgumentOutOfRangeException("size must be greater than 0");
-            arr = new T[size];
-        }
-        /// <summary>
-        /// Constructor that takes a copy of an array datastruct
-        /// </summary>
-        /// <param name="raw">datastruct to copy</param>
-        public Array(T[] raw) // Överkurs!
-        {
-            arr = (T[])raw.Clone();
+            list = new List<T>(size);
         }
         /// <summary>
         /// Get the length of the Array
@@ -36,7 +67,7 @@ namespace arr
         /// <returns>the length</returns>
         public int Length()
         {
-            return arr.Length;
+            return list.Length();
         }
         // Access:
         /// <summary>
@@ -51,7 +82,7 @@ namespace arr
                 throw new IndexOutOfRangeException("index must be within range 0 to Length()");
             if (Length() <= ix)
                 throw new IndexOutOfRangeException("index must be within range 0 to Length()");
-            return arr[ix];
+            return list.Get(ix);
         }
         /// <summary>
         /// Change element at a certain index to a new value
@@ -65,7 +96,7 @@ namespace arr
                 throw new IndexOutOfRangeException("index must be within range 0 to Length()");
             if (Length() <= ix)
                 throw new IndexOutOfRangeException("index must be within range 0 to Length()");
-            arr[ix] = val;
+            list.Set(ix, val);
         }
         /// <summary>
         /// Indexed access of individual element
@@ -78,25 +109,9 @@ namespace arr
             get => Get(ix);
             set => Set(ix, value);
         }
-        /// <summary>
-        /// Constructs a string of the array
-        /// <i>(Object.ToString override)</i>
-        /// </summary>
-        /// <returns>Returns the string</returns>
-        public override string ToString()
+        public void Print()
         {
-            string res = "{";
-            Boolean first = true;
-            foreach (T elt in arr)
-            {
-                if (first)
-                    first = false;
-                else
-                    res += ", ";
-                res += $"{elt}";
-            }
-            res += "}";
-            return res;
+            list.Print();
         }
     }
 }

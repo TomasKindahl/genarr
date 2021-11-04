@@ -16,6 +16,12 @@ namespace genarr
                     A.Set(i, 9 - i);
             }
             Console.WriteLine($"A = {A}");
+
+            var SIZE = 10;
+            var B = new Array<int>(SIZE);
+            B.Print();
+            B.Set(5, 12);
+            B.Print();
         }
     }
 }
